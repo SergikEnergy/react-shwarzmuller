@@ -52,7 +52,7 @@ function ExpenseForm(props) {
     const expenseDate = {
       title: newTitle,
       date: new Date(newDate),
-      amount: newAmount,
+      amount: +newAmount,
     };
 
     props.onSaveExpense(expenseDate);
