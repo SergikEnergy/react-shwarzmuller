@@ -1,12 +1,12 @@
-import styles from './AddUser.module.css';
 import Card from '../UI/Card/Card';
+import styles from './UsersList.module.css';
 
 function UsersList({ users }) {
   return (
-    <Card>
+    <Card className={styles.users}>
       <ul className=''>
         {users.map((user) => (
-          <li>
+          <li key={user.id}>
             {user.name} ({user.age} years old)
           </li>
         ))}
