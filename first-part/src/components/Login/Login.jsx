@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -10,6 +10,28 @@ const Login = (props) => {
   const [enteredPassword, setEnteredPassword] = useState('');
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
+
+  //do as componentWill Unmount
+  useEffect(() => {
+    //this log will type after component did mount and only one time because of empty dependency array
+    console.log('this log when component did mount - only after first render');
+    return () => {
+      console.log('run before start new use Effect');
+      //because we don't have a dependency - we get this lod only before component will unmount
+    };
+  }, []);
+
+  useEffect(() => {
+    const timerID = setTimeout(() => {
+      setFormIsValid(enteredEmail.includes('@') && enteredPassword.trim().length > 6);
+      console.log('checking form validity');
+    }, 500);
+    return () => {
+      clearTimeout(timerID);
+      console.log('cleanUP', timerID);
+    };
+    // console.log('checking form validity');
+  }, [enteredEmail, enteredPassword]);
 
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
