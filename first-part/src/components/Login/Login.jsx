@@ -21,17 +21,17 @@ const Login = (props) => {
     };
   }, []);
 
-  useEffect(() => {
-    const timerID = setTimeout(() => {
-      setFormIsValid(enteredEmail.includes('@') && enteredPassword.trim().length > 6);
-      console.log('checking form validity');
-    }, 500);
-    return () => {
-      clearTimeout(timerID);
-      console.log('cleanUP', timerID);
-    };
-    // console.log('checking form validity');
-  }, [enteredEmail, enteredPassword]);
+  // useEffect(() => {
+  //   const timerID = setTimeout(() => {
+  //     setFormIsValid(enteredEmail.includes('@') && enteredPassword.trim().length > 6);
+  //     console.log('checking form validity');
+  //   }, 500);
+  //   return () => {
+  //     clearTimeout(timerID);
+  //     console.log('cleanUP', timerID);
+  //   };
+  //   // console.log('checking form validity');
+  // }, [enteredEmail, enteredPassword]);
 
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
