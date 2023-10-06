@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer, useContext } from 'react';
+import { useState, useEffect, useReducer, useContext, useRef } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -47,74 +47,57 @@ const passwordReducer = (state, action) => {
 };
 
 const Login = () => {
-  // const [enteredEmail, setEnteredEmail] = useState('');
-  // const [emailIsValid, setEmailIsValid] = useState();
-  // const [enteredPassword, setEnteredPassword] = useState('');
-  // const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
   const context = useContext(AuthContext);
 
-  //using useReducer
-  const [emailState, dispatchEmail] = useReducer(emailReducer, { value: '', isValid: false });
-  const [passwordState, dispatchPassword] = useReducer(passwordReducer, { value: '', isValid: false });
+  const [emailState, dispatchEmail] = useReducer(emailReducer, { value: '', isValid: null });
+  const [passwordState, dispatchPassword] = useReducer(passwordReducer, { value: '', isValid: null });
 
-  //do as componentWill Unmount
-  // useEffect(() => {
-  //   //this log will type after component did mount and only one time because of empty dependency array
-  //   console.log('this log when component did mount - only after first render');
-  //   return () => {
-  //     console.log('run before start new use Effect');
-  //     //because we don't have a dependency - we get this lod only before component will unmount
-  //   };
-  // }, []);
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   useEffect(() => {
     const timerID = setTimeout(() => {
       setFormIsValid(passwordState.isValid && emailState.isValid);
-      console.log('checking form validity');
     }, 500);
     return () => {
       clearTimeout(timerID);
-      console.log('cleanUP', timerID);
     };
-    // console.log('checking form validity');
   }, [passwordState.isValid, emailState.isValid]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({ type: 'USER_EMAIL', payload: event.target.value });
-    // setEnteredEmail(event.target.value);
-
-    // setFormIsValid(emailState.isValid && passwordState.isValid);
   };
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({ type: 'USER_PASSWORD', payload: event.target.value });
-    // setEnteredPassword(event.target.value);
-
-    // setFormIsValid(passwordState.isValid && emailState.isValid);
   };
 
   const validateEmailHandler = () => {
     dispatchEmail({ type: 'EMAIL_ONBLUR' });
-    // setEmailIsValid(emailState.isValid);
   };
 
   const validatePasswordHandler = () => {
     dispatchPassword({ type: 'PASSWORD_ONBLUR' });
-    // setPasswordIsValid(enteredPassword.trim().length > 6);
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    context.onLogIn(emailState.value, passwordState.value);
-    console.log(context.onLogIn);
-    console.log(context);
+    if (formIsValid) {
+      context.onLogIn(emailState.value, passwordState.value);
+    } else if (!emailState.isValid) {
+      //make a focus on the first wrong item
+      emailRef.current.focus();
+    } else {
+      passwordRef.current.focus();
+    }
   };
 
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
         <Input
+          ref={emailRef}
           isValid={emailState.isValid}
           id={'email'}
           label={'E-mail'}
@@ -125,6 +108,7 @@ const Login = () => {
         />
 
         <Input
+          ref={passwordRef}
           isValid={passwordState.isValid}
           id={'password'}
           label={'Password'}
@@ -135,7 +119,7 @@ const Login = () => {
         />
 
         <div className={classes.actions}>
-          <Button type='submit' className={classes.btn} disabled={!formIsValid}>
+          <Button type='submit' className={classes.btn}>
             Login
           </Button>
         </div>

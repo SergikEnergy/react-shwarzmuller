@@ -1,13 +1,34 @@
-// import from 'react';
+import { useRef, useImperativeHandle, forwardRef } from 'react';
 import classes from './Input.module.css';
 
-const Input = (props) => {
+const Input = forwardRef((props, ref) => {
+  const inputRef = useRef();
+
+  const activateFocus = () => {
+    inputRef.current.focus();
+  };
+
+  useImperativeHandle(ref, () => {
+    return {
+      focus: activateFocus,
+    };
+  });
+
   return (
     <div className={`${classes.control} ${props.isValid === false ? classes.invalid : ''}`}>
       <label htmlFor={props.id}>{props.label}</label>
-      <input type={props.type} id={props.id} value={props.value} onChange={props.onChange} onBlur={props.onBlur} />
+      <input
+        ref={inputRef}
+        type={props.type}
+        id={props.id}
+        value={props.value}
+        onChange={props.onChange}
+        onBlur={props.onBlur}
+      />
     </div>
   );
-};
+});
+
+Input.displayName = 'Input';
 
 export default Input;
