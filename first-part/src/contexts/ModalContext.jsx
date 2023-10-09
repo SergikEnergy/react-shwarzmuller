@@ -1,11 +1,23 @@
 import { createContext, useState } from 'react';
 
-const ModalContext = createContext(false);
+const ModalContext = createContext({
+  isVisible: false,
+  showHandler: () => {},
+  hideHandler: () => {},
+});
 
-const ModalContextProvider = (props) => {
+export const ModalContextProvider = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false);
 
-  return <ModalContext.Provider value={isVisible}>{props.children}</ModalContext.Provider>;
+  const showHandler = () => {
+    setIsVisible(true);
+  };
+
+  const hideHandler = () => {
+    setIsVisible(false);
+  };
+
+  return <ModalContext.Provider value={{ isVisible, showHandler, hideHandler }}>{children}</ModalContext.Provider>;
 };
 
-export default ModalContextProvider;
+export default ModalContext;
