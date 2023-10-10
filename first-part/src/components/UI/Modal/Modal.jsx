@@ -1,8 +1,11 @@
 import ReactDOM from 'react-dom';
+import { useContext } from 'react';
+import ModalContext from '../../../contexts/ModalContext';
 import classes from './Modal.module.css';
 
-const BackDrop = (props) => {
-  return <div className={classes.backdrop}></div>;
+const BackDrop = () => {
+  const context = useContext(ModalContext);
+  return <div className={classes.backdrop} onClick={context.hideHandler}></div>;
 };
 
 const ModalOverlay = (props) => {
