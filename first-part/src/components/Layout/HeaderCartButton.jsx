@@ -8,6 +8,11 @@ import classes from './HeaderCartButton.module.css';
 function HeaderCartButton(props) {
   const context = useContext(ModalContext);
   const cartContext = useContext(CardContext);
+
+  const amountOfCartItem = cartContext.items.reduce((acc, curr) => {
+    return curr.amount + acc;
+  }, 0);
+
   return (
     <>
       <button className={classes.button} onClick={context.showHandler}>
@@ -15,7 +20,7 @@ function HeaderCartButton(props) {
           <CartIcon />
         </span>
         <span className=''>Your cart</span>
-        <span className={classes.badge}>{cartContext.totalAmount}</span>
+        <span className={classes.badge}>{amountOfCartItem}</span>
       </button>
     </>
   );
