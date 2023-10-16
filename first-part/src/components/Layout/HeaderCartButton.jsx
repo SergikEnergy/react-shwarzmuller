@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 import ModalContext from '../../contexts/ModalContext';
-import CardContext from '../../contexts/CardContext';
+import CartContext from '../../contexts/CartContext';
 
 import CartIcon from '../Cart/CartIcon';
 import classes from './HeaderCartButton.module.css';
 
 function HeaderCartButton(props) {
   const context = useContext(ModalContext);
-  const cartContext = useContext(CardContext);
+  const cartContext = useContext(CartContext);
 
   const amountOfCartItem = cartContext.items.reduce((acc, curr) => {
     return curr.amount + acc;

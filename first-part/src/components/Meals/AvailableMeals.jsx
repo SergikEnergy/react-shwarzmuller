@@ -10,7 +10,9 @@ function AvailableMeals() {
       <Card>
         <ul>
           {mealsData.map((meal) => {
-            return <MealItem key={meal.id} name={meal.name} price={meal.price} description={meal.description} />;
+            return (
+              <MealItem key={meal.id} id={meal.id} name={meal.name} price={meal.price} description={meal.description} />
+            );
           })}
         </ul>
       </Card>
