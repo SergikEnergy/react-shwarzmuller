@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import './App.css';
 import { MemoButton } from './components/UI/Button/Button';
@@ -7,9 +7,12 @@ import DemoOutput from './components/Demo/DemoOutput';
 function App() {
   const [show, setShow] = useState(false);
 
-  const toggleHandler = () => {
+  const toggleHandler = useCallback(() => {
     setShow((prev) => !prev);
-  };
+  }, []);
+  //useCallback allows to store function during components execution
+  //empty array of dependencies guarantee react that inside callback function won't be change
+
   console.log('App RUNNING');
 
   return (
