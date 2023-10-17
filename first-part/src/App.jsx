@@ -15,7 +15,7 @@ function App() {
   return (
     <div className='app'>
       <h1>Hi there!</h1>
-      <DemoOutput show={show} />
+      <DemoOutput show={false} />
       <Button onClick={toggleHandler}>Show Paragraph!</Button>
     </div>
   );
