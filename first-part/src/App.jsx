@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import './App.css';
-import Button from './components/UI/Button/Button';
+import { MemoButton } from './components/UI/Button/Button';
 import DemoOutput from './components/Demo/DemoOutput';
 
 function App() {
@@ -16,7 +16,8 @@ function App() {
     <div className='app'>
       <h1>Hi there!</h1>
       <DemoOutput show={false} />
-      <Button onClick={toggleHandler}>Show Paragraph!</Button>
+      <MemoButton onClick={toggleHandler}>Show Paragraph!</MemoButton>
+      {/*memo button was running again because props get an object with function toggleHandler and function is every time a new object and {}!=={} in JS every time because it is no primitive value in JS*/}
     </div>
   );
 }
