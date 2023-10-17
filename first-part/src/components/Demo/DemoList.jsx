@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+//useMemo allows to store any kind of data - use for weight logic inside a component to save the result of this logic
 
 import classes from './DemoList.module.css';
 
 const DemoList = ({ items, title }) => {
-  const sortedList = items.sort((a, b) => a - b);
+  //sort is the most heavy logic - use useMemo
+  const sortedList = useMemo(() => {
+    console.log('items sorted');
+    return items.sort((a, b) => a - b);
+  }, [items]);
+  /*useMemo store the result and takes 2 parameters
+	1 - func that return some value
+	2- array of dependencies
+	*/
 
   console.log('DemoList RUNNING');
 
