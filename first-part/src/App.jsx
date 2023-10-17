@@ -12,7 +12,7 @@ function App() {
     if (allowToggle) {
       setShow((prev) => !prev);
     }
-  }, []);
+  }, [allowToggle]);
   //useCallback allows to store function during components execution
   //empty array of dependencies guarantee react that inside callback function won't be change
   // if we have some variables inside useCallback - react store them in your external store and never change it - this is the reason of using dependency array that show react when change this variables in your store and reassign the function
