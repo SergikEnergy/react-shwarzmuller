@@ -1,15 +1,13 @@
-import { useState, useEffect, Component } from 'react';
+import { /*useState, useEffect,*/ Component } from 'react';
+import UsersContext from '../store/users-context';
 
 import Users from './Users';
 import classes from './UserFinder.module.css';
 
-const DUMMY_USERS = [
-  { id: 'u1', name: 'Max' },
-  { id: 'u2', name: 'Manuel' },
-  { id: 'u3', name: 'Julie' },
-];
-
 class UserFinder extends Component {
+  static contextType = UsersContext;
+  //we can also use UsersContext.Consumer instead of React.Fragment in render method - but this is an example of another way
+
   constructor() {
     super();
     this.state = {
@@ -20,13 +18,16 @@ class UserFinder extends Component {
 
   componentDidMount() {
     //sent http request ...
-    this.setState({ filteredUsers: DUMMY_USERS });
+    this.setState({ filteredUsers: this.context.users });
+    // this.context is here because of static property contextType
+    //if we need more than one those context - we need to divide component into smaller part
+    // only one component for one context - the rule of static contextType
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchTerm !== this.state.searchTerm) {
       this.setState({
-        filteredUsers: DUMMY_USERS.filter((user) => user.name.includes(this.state.searchTerm)),
+        filteredUsers: this.context.users.filter((user) => user.name.includes(this.state.searchTerm)),
       });
     }
   }
