@@ -18,9 +18,15 @@ class Users extends Component {
       nested: { nestedState: 'nested' },
     };
   }
+
+  componentDidUpdate() {
+    if (this.props.users.length === 0) {
+      throw new Error('No users Provided');
+    }
+    //implement some error if we don't have users
+  }
+
   toggleUsersHandler() {
-    console.log(this);
-    console.log(this.state);
     this.setState((currState) => {
       return { ...currState, showUsers: !currState.showUsers };
     });

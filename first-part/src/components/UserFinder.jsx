@@ -3,6 +3,7 @@ import UsersContext from '../store/users-context';
 
 import Users from './Users';
 import classes from './UserFinder.module.css';
+import ErrorBoundaryComponent from './ErrorComponent';
 
 class UserFinder extends Component {
   static contextType = UsersContext;
@@ -42,7 +43,9 @@ class UserFinder extends Component {
         <div className={classes.finder}>
           <input type='search' onChange={this.searchChangeHandler.bind(this)} />
         </div>
-        <Users users={this.state.filteredUsers} />
+        <ErrorBoundaryComponent>
+          <Users users={this.state.filteredUsers} />
+        </ErrorBoundaryComponent>
       </>
     );
   }
