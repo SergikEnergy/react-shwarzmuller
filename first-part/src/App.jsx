@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MoviesList from './components/MoviesList';
+import MovieList from './components/MovieList';
 import './App.css';
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
         <button>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={dummyMovies} />
+        <MovieList movies={dummyMovies} />
       </section>
     </React.Fragment>
   );
