@@ -1,8 +1,13 @@
+import { Fragment } from 'react';
+import BackwardCounter from './components/BackwardCounter';
+import ForwardCounter from './components/ForwardCounter';
+
 function App() {
   return (
-    <div>
-      <h2>Let's get started!</h2>
-    </div>
+    <Fragment>
+      <ForwardCounter />
+      <BackwardCounter />
+    </Fragment>
   );
 }
 
