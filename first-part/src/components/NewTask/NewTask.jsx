@@ -11,9 +11,13 @@ const NewTask = (props) => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch('https://react-http-6b4a6.firebaseio.com/tasks.json', {
+      const response = await fetch('https://dummyjson.com/todos/add', {
         method: 'POST',
-        body: JSON.stringify({ text: taskText }),
+        body: JSON.stringify({
+          todo: taskText,
+          completed: false,
+          userId: 5,
+        }),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -25,8 +29,7 @@ const NewTask = (props) => {
 
       const data = await response.json();
 
-      const generatedId = data.name; // firebase-specific => "name" contains generated id
-      const createdTask = { id: generatedId, text: taskText };
+      const createdTask = { id: data.id, text: taskText };
 
       props.onAddTask(createdTask);
     } catch (err) {

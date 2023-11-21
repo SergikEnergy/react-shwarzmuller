@@ -12,18 +12,19 @@ function App() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch('https://dummyjson.com/todos');
+      const response = await fetch('https://dummyjson.com/todos?limit=3');
 
       if (!response.ok) {
         throw new Error('Request failed!');
       }
 
-      const data = await response.json()['todos'];
+      const data = await response.json();
 
       const loadedTasks = [];
 
-      for (const taskKey in data) {
-        loadedTasks.push({ id: taskKey.id, text: taskKey.todo });
+      for (const todo of data.todos) {
+        console.log(todo);
+        loadedTasks.push({ id: todo.id, text: todo.todo });
       }
 
       setTasks(loadedTasks);
