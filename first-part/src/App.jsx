@@ -17,10 +17,10 @@ function App() {
     setTasks(loadedTasks);
   }, []);
 
-  const { isLoading, error, sendRequest: fetchTasks } = useHTTP(transformTasks);
+  const { isLoading, error, sendRequest: fetchTasks } = useHTTP();
 
   useEffect(() => {
-    fetchTasks({ url: 'https://dummyjson.com/todos?limit=3' });
+    fetchTasks({ url: 'https://dummyjson.com/todos?limit=3' }, transformTasks);
   }, []);
 
   const taskAddHandler = (task) => {

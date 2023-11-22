@@ -1,41 +1,30 @@
-import { useState } from 'react';
+import useHTTP from '../../hooks/useHTTP';
 
 import Section from '../UI/Section';
 import TaskForm from './TaskForm';
 
 const NewTask = (props) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const createTask = (todoText, dataTodo) => {
+    const createdTask = { id: dataTodo.id, text: todoText };
+    props.onAddTask(createdTask);
+  };
+
+  const { isLoading, error, sendRequest: sendTaskRequest } = useHTTP();
 
   const enterTaskHandler = async (taskText) => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch('https://dummyjson.com/todos/add', {
+    sendTaskRequest(
+      {
+        url: 'https://dummyjson.com/todos/add',
         method: 'POST',
-        body: JSON.stringify({
+        body: {
           todo: taskText,
           completed: false,
           userId: 5,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
         },
-      });
-
-      if (!response.ok) {
-        throw new Error('Request failed!');
-      }
-
-      const data = await response.json();
-
-      const createdTask = { id: data.id, text: taskText };
-
-      props.onAddTask(createdTask);
-    } catch (err) {
-      setError(err.message || 'Something went wrong!');
-    }
-    setIsLoading(false);
+        headers: { 'Content-Type': 'application/json' },
+      },
+      createTask.bind(null, taskText)
+    );
   };
 
   return (
