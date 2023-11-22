@@ -1,17 +1,17 @@
 import { useState } from 'react';
 
-const useHTTP = () => {
+const useHTTP = (configRequest, makeData) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const sendRequest = async (configRequest, makeData) => {
+  const sendRequest = async () => {
     setIsLoading(true);
     setError(null);
     try {
       const response = await fetch(configRequest.url, {
-        method: configRequest.method,
-        headers: configRequest.headers,
-        body: JSON.stringify(configRequest.body),
+        method: configRequest.method ? configRequest.method : 'GET',
+        headers: configRequest.headers ? configRequest.headers : {},
+        body: configRequest.body ? JSON.stringify(configRequest.body) : null,
       });
 
       if (!response.ok) {

@@ -1,38 +1,26 @@
 import { useEffect, useState } from 'react';
 
+import useHTTP from './hooks/useHTTP';
 import Tasks from './components/Tasks/Tasks';
 import NewTask from './components/NewTask/NewTask';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const transformTasks = (todosObj) => {
+    const loadedTasks = [];
 
-  const fetchTasks = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch('https://dummyjson.com/todos?limit=3');
-
-      if (!response.ok) {
-        throw new Error('Request failed!');
-      }
-
-      const data = await response.json();
-
-      const loadedTasks = [];
-
-      for (const todo of data.todos) {
-        console.log(todo);
-        loadedTasks.push({ id: todo.id, text: todo.todo });
-      }
-
-      setTasks(loadedTasks);
-    } catch (err) {
-      setError(err.message || 'Something went wrong!');
+    for (const todo of todosObj.todos) {
+      loadedTasks.push({ id: todo.id, text: todo.todo });
     }
-    setIsLoading(false);
+
+    setTasks(loadedTasks);
   };
+
+  const {
+    isLoading,
+    error,
+    sendRequest: fetchTasks,
+  } = useHTTP({ url: 'https://dummyjson.com/todos?limit=3' }, transformTasks);
 
   useEffect(() => {
     fetchTasks();
