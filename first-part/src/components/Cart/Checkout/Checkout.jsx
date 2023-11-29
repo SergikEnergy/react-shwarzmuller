@@ -6,7 +6,7 @@ function Checkout(props) {
   };
 
   return (
-    <form onSubmit={submitHandler}>
+    <form className={classes.form} onSubmit={submitHandler}>
       <div className={classes.control}>
         <label htmlFor='nameClient'>Your name:</label>
         <input type='text' name='client-name' id='nameClient' />
@@ -23,10 +23,12 @@ function Checkout(props) {
         <label htmlFor='city'>Your city:</label>
         <input type='text' name='client-address-city' id='city' />
       </div>
-      <button type='button' onClick={props.onCancel}>
-        Cancel
-      </button>
-      <button>Confirm</button>
+      <div className={classes.actions}>
+        <button type='button' onClick={props.onCancel}>
+          Cancel
+        </button>
+        <button className={classes.submit}>Confirm</button>
+      </div>
     </form>
   );
 }
