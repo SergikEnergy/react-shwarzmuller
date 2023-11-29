@@ -9,6 +9,8 @@ import Checkout from './Checkout/Checkout';
 
 function Cart() {
   const [isOrderFormShowed, setIsOrderFormShowed] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
   const cartCtx = useContext(CartContext);
   const context = useContext(ModalContext);
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -26,8 +28,24 @@ function Cart() {
     setIsOrderFormShowed(true);
   };
 
-  return (
-    <Modal>
+  const submitOrderHandler = async (userData) => {
+    setIsSubmitted(true);
+    await fetch('https://react-shwarzmuller-default-rtdb.europe-west1.firebasedatabase.app/orders.json', {
+      method: 'POST',
+      body: JSON.stringify({
+        user: userData,
+        orderedItems: cartCtx.items,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    setIsSubmitted(false);
+    setDidSubmit(true);
+    cartCtx.clearCart();
+  };
+
+  const cartModalContent = (
+    <>
+      {' '}
       <ul className={classes['cart-items']}>
         {cartCtx.items.map((item) => (
           <CartItem
@@ -44,7 +62,7 @@ function Cart() {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isOrderFormShowed && <Checkout onCancel={context.hideHandler} />}
+      {isOrderFormShowed && <Checkout onConfirm={submitOrderHandler} onCancel={context.hideHandler} />}
       {!isOrderFormShowed && (
         <div className={classes.actions}>
           <button className={classes['button--alt']} onClick={context.hideHandler}>
@@ -57,6 +75,26 @@ function Cart() {
           )}
         </div>
       )}
+    </>
+  );
+
+  const isSubmittingModalContent = <p>Sending order data...</p>;
+  const didSubmitModalContent = (
+    <>
+      <p>Successfully sent the order!</p>
+      <div className={classes.actions}>
+        <button className={classes.button} onClick={context.hideHandler}>
+          Close
+        </button>
+      </div>
+    </>
+  );
+
+  return (
+    <Modal>
+      {!isSubmitted && !didSubmit && cartModalContent}
+      {isSubmitted && isSubmittingModalContent}
+      {!isSubmitted && didSubmit && didSubmitModalContent}
     </Modal>
   );
 }
