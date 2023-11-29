@@ -1,12 +1,14 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import Modal from '../UI/Modal/Modal';
 import classes from './Cart.module.css';
 import ModalContext from '../../contexts/ModalContext';
 import CartContext from '../../contexts/CartContext';
 import CartItem from './CartItem';
+import Checkout from './Checkout/Checkout';
 
 function Cart() {
+  const [isOrderFormShowed, setIsOrderFormShowed] = useState(false);
   const cartCtx = useContext(CartContext);
   const context = useContext(ModalContext);
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -18,6 +20,10 @@ function Cart() {
 
   const cartItemAddHandler = (item) => {
     cartCtx.addItem({ ...item, amount: 1 });
+  };
+
+  const orderHandler = () => {
+    setIsOrderFormShowed(true);
   };
 
   return (
@@ -38,12 +44,19 @@ function Cart() {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      <div className={classes.actions}>
-        <button className={classes['button--alt']} onClick={context.hideHandler}>
-          Close
-        </button>
-        {isNotEmptyCart && <button className={classes.button}>Order</button>}
-      </div>
+      {isOrderFormShowed && <Checkout onCancel={context.hideHandler} />}
+      {!isOrderFormShowed && (
+        <div className={classes.actions}>
+          <button className={classes['button--alt']} onClick={context.hideHandler}>
+            Close
+          </button>
+          {isNotEmptyCart && (
+            <button className={classes.button} onClick={orderHandler}>
+              Order
+            </button>
+          )}
+        </div>
+      )}
     </Modal>
   );
 }
