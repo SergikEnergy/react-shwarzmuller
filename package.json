@@ -1,0 +1,16 @@
+{
+  "name": "react-shwarzmuller",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "redux-js.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "redux": "^4.2.1"
+  }
+}
