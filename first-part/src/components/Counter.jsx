@@ -6,8 +6,8 @@ import { counterActions } from '../store/main';
 import classes from './Counter.module.css';
 
 function Counter() {
-  const counter = useSelector((state) => state.counter);
-  const isVisible = useSelector((state) => state.showCounter);
+  const counter = useSelector((state) => state.counter.counter);
+  const isVisible = useSelector((state) => state.counter.showCounter);
 
   const dispatch = useDispatch();
 
