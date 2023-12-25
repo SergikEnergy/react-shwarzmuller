@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Layout from './components/Layout/Layout';
 import Cart from './components/Cart/Cart';
 import Products from './components/Shop/Products';
-import { sendData } from './store/cart-slice';
+import { sendData, fetchData } from './store/card-actions';
 import Notification from './components/Notification/Notification';
 
 let isInitial = true;
@@ -16,12 +16,17 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (isInitial) {
       isInitial = false;
       return;
     }
-
-    dispatch(sendData(cart));
+    if (cart.isCardFetched) {
+      dispatch(sendData(cart));
+    }
   }, [cart, dispatch]);
 
   return (
