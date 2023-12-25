@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { uiActions } from './ui-slice';
 
 const initialCartState = {
   items: [],
@@ -44,6 +45,52 @@ const cartSlice = createSlice({
     },
   },
 });
+
+export const sendData = (cart) => {
+  return async (dispatch) => {
+    dispatch(
+      uiActions.setNotification({
+        status: 'pending',
+        title: 'Sending request...',
+        message: 'Send data to the database!',
+      })
+    );
+
+    const sendRequest = async () => {
+      const response = await fetch(
+        'https://react-shwarzmuller-default-rtdb.europe-west1.firebasedatabase.app/cart.json',
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(cart),
+        }
+      );
+      if (!response.ok) {
+        throw new Error('Failed send data!');
+      }
+    };
+    try {
+      await sendRequest();
+      dispatch(
+        uiActions.setNotification({
+          status: 'success',
+          title: 'Success',
+          message: 'Load data successfully',
+        })
+      );
+    } catch (error) {
+      dispatch(
+        uiActions.setNotification({
+          status: 'error',
+          title: error.message,
+          message: 'Failed sending data to the database',
+        })
+      );
+    }
+  };
+};
 
 export const cartActions = cartSlice.actions;
 export default cartSlice.reducer;

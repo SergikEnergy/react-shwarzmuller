@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Layout from './components/Layout/Layout';
 import Cart from './components/Cart/Cart';
 import Products from './components/Shop/Products';
-import { uiActions } from './store/ui-slice';
+import { sendData } from './store/cart-slice';
 import Notification from './components/Notification/Notification';
 
 let isInitial = true;
@@ -21,45 +21,7 @@ function App() {
       return;
     }
 
-    const sendData = async () => {
-      dispatch(
-        uiActions.setNotification({
-          status: 'pending',
-          title: 'Sending request...',
-          message: 'Send data to the database!',
-        })
-      );
-
-      const response = await fetch(
-        'https://react-shwarzmuller-default-rtdb.europe-west1.firebasedatabase.app/cart.json',
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(cart),
-        }
-      );
-      if (!response.ok) {
-        throw new Error('Failed send data!');
-      }
-      dispatch(
-        uiActions.setNotification({
-          status: 'success',
-          title: 'Success',
-          message: 'Load data successfully',
-        })
-      );
-    };
-    sendData().catch((error) => {
-      dispatch(
-        uiActions.setNotification({
-          status: 'error',
-          title: error.message,
-          message: 'Failed sending data to the database',
-        })
-      );
-    });
+    dispatch(sendData(cart));
   }, [cart, dispatch]);
 
   return (
