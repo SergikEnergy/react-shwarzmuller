@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
+import classes from './MainNav.module.css';
 
 function MainNav() {
   return (
-    <header className=''>
-      <nav className=''>
+    <header className={classes.header}>
+      <nav className={classes.navbar}>
         <li>
           <Link to='/'>Home</Link>
         </li>
