@@ -1,15 +1,21 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import classes from './MainNav.module.css';
 
 function MainNav() {
+  const setActive = ({ isActive }) => (isActive ? classes['active-link'] : classes.link);
+
   return (
     <header className={classes.header}>
       <nav className={classes.navbar}>
         <li>
-          <Link to='/'>Home</Link>
+          <NavLink to='/' className={setActive} end={true}>
+            Home
+          </NavLink>
         </li>
         <li>
-          <Link to='/products'>Products</Link>
+          <NavLink to='/products' className={setActive}>
+            Products
+          </NavLink>
         </li>
       </nav>
     </header>

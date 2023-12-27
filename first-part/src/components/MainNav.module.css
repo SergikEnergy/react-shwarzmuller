@@ -17,7 +17,12 @@
   text-decoration: none;
 }
 
-.navbar li a {
+.link {
   color: white;
   text-decoration: none;
+}
+
+.active-link {
+  color: greenyellow;
+  text-decoration: underline;
 }
