@@ -24,7 +24,8 @@ function MainNavigation() {
             </NavLink>
           </li>
           <li>
-            <NavLink to='/auth' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+            <NavLink to='/auth?mode=login' className={({ isActive }) => (isActive ? classes.active : undefined)}>
+              {/* we can create NavLink to='/auth?mode=login' - to set query param mode===login by default */}
               Authentication
             </NavLink>
           </li>
