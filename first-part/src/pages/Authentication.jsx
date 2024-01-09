@@ -39,6 +39,10 @@ export async function action({ request }) {
     throw json({ message: 'User was not authenticated' }, { status: '500' });
   }
 
-  //tbd - manage the token, that we use
+  const resData = await response.json();
+  const token = resData.token;
+
+  localStorage.setItem('tokenAuth', token);
+
   return redirect('/');
 }
