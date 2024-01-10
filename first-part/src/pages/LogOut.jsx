@@ -2,7 +2,6 @@ import { redirect } from 'react-router-dom';
 
 export function action() {
   localStorage.removeItem('tokenAuth');
-  console.log('sdfg');
+  localStorage.removeItem('expiration');
   redirect('/');
-  console.log('!!!');
 }
